@@ -1,4 +1,5 @@
 import React from 'react'
+
 import ButtonLight from "../components/buttons/ButtonLight";
 import ButtonPink from "../components/buttons/ButtonPink";
 import logo from "../assets/images/logoimg.jpeg"
@@ -71,4 +72,5 @@ function NavbarUser() {
 }
 
 export default NavbarUser
+
 

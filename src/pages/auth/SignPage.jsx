@@ -1,4 +1,5 @@
 import React from 'react'
+
 import ButtonPink from "../../components/buttons/ButtonPink";
 import ButtonLight from "../../components/buttons/ButtonLight";
 import Footer from "../../layout/Footer";
@@ -158,3 +159,6 @@ function SignPage() {
 }
 
 export default SignPage
+
+
+

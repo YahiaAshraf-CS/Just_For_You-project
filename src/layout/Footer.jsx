@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { NavLink } from 'react-router';
 import logoimg from '../assets/images/logoimg.jpeg';
 import { FaFacebook } from "react-icons/fa";
@@ -66,4 +67,7 @@ function Footer() {
 }
 
 export default Footer
+
+
+
 
