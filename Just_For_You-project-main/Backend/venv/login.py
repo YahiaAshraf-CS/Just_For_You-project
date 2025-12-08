@@ -7,7 +7,7 @@ import os
 app = Flask(__name__)
 CORS(app)
 
-# Path to the same JSON file your teammate used
+
 USERS_FILE = os.path.join(os.path.dirname(os.path.dirname(__file__)), "users.json")
 
 def load_users():
@@ -29,17 +29,17 @@ def login():
 
     users = load_users()
 
-    # Find user by email
+    
     user = next((u for u in users if u["email"] == email), None)
 
     if not user:
         return jsonify({"status": "error", "message": "Invalid email or password"}), 401
 
-    # Check hashed password
+    
     if not check_password_hash(user["password"], password):
         return jsonify({"status": "error", "message": "Invalid email or password"}), 401
 
-    # Success response (you can add user data if needed)
+   
     return jsonify({
         "status": "success",
         "message": "Login successful",
