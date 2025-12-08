@@ -1,0 +1,42 @@
+[
+    {
+        "id": 1,
+        "firstName": "bro",
+        "lastName": "please",
+        "number": "67",
+        "email": "gj@gmail.com",
+        "password": "scrypt:32768:8:1$jyfIyLeHQSJik8eJ$ab94b5e8cd2910e88efb1c7f6e5a5fd1392ef92a3c8fcc7b912c42bb25c9d6dd7578b37dee72ce3b3193a10271b231cd0f7202b75c9dd54198f5d1abce30547c"
+    },
+    {
+        "id": 2,
+        "firstName": "djgc",
+        "lastName": "jshkc",
+        "number": "090908",
+        "email": "uio@jk",
+        "password": "scrypt:32768:8:1$BHe08Optr7sG0q1G$0aeab9e5f4f3b35c7ca31758aa99697b79ffbb1e4fd2de129bd6b2d76974dcb5831c331a319d12fc369bc13f46dc6cf291e195fc97c6452df90725ee50c88f21"
+    },
+    {
+        "id": 3,
+        "firstName": "kevin",
+        "lastName": "durant",
+        "number": "01111",
+        "email": "dssak@cj",
+        "password": "scrypt:32768:8:1$D5Ed6D4F2pautUEm$8c417769a6e5d0c956d5ef5da703a11414759a66bf4109cef86532c68a5e215edaa5e78b94654a36ff74eb8eb91ed4577ba7a0a76de5797638006f60c1cbfac3"
+    },
+    {
+        "id": 4,
+        "firstName": "ksjcg",
+        "lastName": "hkcj",
+        "number": "76",
+        "email": "jf@hg",
+        "password": "scrypt:32768:8:1$ZelAJjkC2QzwiCiC$fbbed9c13eda6acf6ee6a4db9b3c161626bb93f92763c66802b6151edfaf4089932f950957242e94507d85a0b7a1c12e1df42c2fef24952bf58d5b0f87bf2702"
+    },
+    {
+        "id": 5,
+        "firstName": "please",
+        "lastName": "h",
+        "number": "283",
+        "email": "kj#@k",
+        "password": "scrypt:32768:8:1$pq43FI8woPt02FQO$5e6cd6519042817d2d87b1ac7263c7f6b633af4da0f4801d44bac808688ece93a22e9f49e0193b8e93b09851ebc33efcc3d88e8517bb7fd1ff3b7f32bd22d2bb"
+    }
+]

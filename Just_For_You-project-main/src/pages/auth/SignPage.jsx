@@ -27,51 +27,31 @@ function SignPage() {
     setLoading(true);
     setError("");
     setTimeout(async () => {
-      
-    
-      const emailToCheck = (newUser.email || "").trim().toLowerCase();
 
-      if (!emailToCheck) {
-        setError("Email is required"); 
-        setLoading(false); 
-        return; 
-      }
-       
       try {
-        const res = await fetch("http://localhost:5000/users");
-        const users = await res.json();
 
-        const emailExist = users.some((u) => u.email === newUser.email);
-        if (emailExist) {
-          setError("This email is already registered"); 
-          setLoading(false);
-          return; 
-        }
 
-        const passwordExists = users.some((u) => u.password === newUser.password); 
-        if (passwordExists) {
-          setError("This password is already in use, choose another one"); 
-          setLoading(false); 
-          return; 
-        }
-
- 
-        const postRes = await fetch("http://localhost:5000/users", {
-          method: "POST", 
-          headers: { "Content-Type": "application/json" }, 
-          body: JSON.stringify(newUser), 
+        const postRes = await fetch("http://127.0.0.1:5000/api/signup", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(newUser),
         });
-        const postUser = await postRes.json();
+        const postData = await postRes.json();
 
-            
+        if (!postRes.ok) {
+          setError(postData.message || "Signup failed");
+          setLoading(false);
+          return;
+        }
+
         localStorage.setItem("currentUser", JSON.stringify(newUser));
 
-        navigate("/product"); 
+        navigate("/product");
       } catch (err) {
-        console.error("SignUp error:", err); 
-        setError("Something went wrong. Make sure json-server is running on port 5000."); 
+        console.error("SignUp error:", err);
+        setError("Something went wrong. Make sure the backend is running on port 5000.");
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     }, 1000);
       
