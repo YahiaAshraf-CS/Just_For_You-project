@@ -1,24 +1,8 @@
 from flask import Blueprint, request, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
-import json
-import os
+from models import db, User
 
 app = Blueprint('signup', __name__)
-
-USERS_FILE = os.path.join(os.path.dirname(os.path.dirname(__file__)), "users.json")
-
-def load_users():
-    """Load users from JSON file or return empty list."""
-    if not os.path.exists(USERS_FILE):
-        return []
-    with open(USERS_FILE, "r") as f:
-        return json.load(f)
-
-
-def save_users(users):
-    """Save users list to JSON file."""
-    with open(USERS_FILE, "w") as f:
-        json.dump(users, f, indent=4)
 
 @app.route("/signup", methods=["POST"])
 def signup():
@@ -33,28 +17,32 @@ def signup():
     if not all([firstName, lastName, number, email, password]):
         return jsonify({"status": "error", "message": "Missing fields"}), 400
 
-    users = load_users()
-
-    if any(u["email"] == email for u in users):
+    existing_user = User.query.filter_by(email=email).first()
+    if existing_user:
         return jsonify({"status": "error", "message": "Email already exists"}), 409
     
     hashed_password = generate_password_hash(password)
 
-    new_user = {
-        "id": len(users) + 1,
-        "firstName": firstName,
-        "lastName": lastName,
-        "number": number,
-        "email": email,
-        "password": hashed_password
-    }
+    new_user = User(
+        firstName=firstName,
+        lastName=lastName,
+        number=number,
+        email=email,
+        password=hashed_password
+    )
 
-    users.append(new_user)
-    save_users(users)
+    db.session.add(new_user)
+    db.session.commit()
 
     return jsonify({"status": "success", "message": "User registered"}), 201
 
-@app.route("/users", methods=["GET"])
-def get_users():
-    users = load_users()
-    return jsonify(users), 200
+@app.route("/users/<int:user_id>", methods=["DELETE"])
+def delete_user(user_id):
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({"status": "error", "message": "User not found"}), 404
+    
+    db.session.delete(user)
+    db.session.commit()
+    
+    return jsonify({"status": "success", "message": "User deleted"}), 200
