@@ -16,6 +16,13 @@ def signup():
 
     if not all([firstName, lastName, number, email, password]):
         return jsonify({"status": "error", "message": "Missing fields"}), 400
+    
+    if (len(password) < 6):
+        return jsonify({"status": "error", "message": "Password too short"}), 400
+    if not any(char.isdigit() for char in password):
+        return jsonify({"status": "error", "message": "Password must contain at least one number"}), 400
+    if not any(char.isupper() for char in password):
+        return jsonify({"status": "error", "message": "Password must contain at least one uppercase character"}), 400   
 
     existing_user = User.query.filter_by(email=email).first()
     if existing_user:
