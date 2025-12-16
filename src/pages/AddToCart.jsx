@@ -2,14 +2,15 @@ import React from 'react'
 import NavbarUser from '../layout/NavbarUser'
 import Footer from '../layout/Footer'
 
-function WishList() {
+function AddToCart() {
   return (
-    <div>
-      <NavbarUser />
+      <>
+          <NavbarUser />
+            
+          <Footer />
       
-      <Footer/>
-    </div>
+    </>
   )
 }
 
-export default WishList
+export default AddToCart
