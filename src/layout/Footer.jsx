@@ -10,10 +10,6 @@ import Linkicon from '../components/links/Linkicon';
 
 
 
-
-
-
-
 function Footer() {
   return (
       <>
@@ -70,5 +66,4 @@ function Footer() {
 }
 
 export default Footer
-
 

@@ -7,8 +7,6 @@ import { useNavigate } from "react-router";
 import { useEffect, useState } from 'react'; 
 import { NavLink } from 'react-router-dom';
 
-
-
 function NavbarUser() {
     const navigate = useNavigate();
  // يطبع اسم المستخدم الحالي لو موجود
@@ -73,5 +71,4 @@ function NavbarUser() {
 }
 
 export default NavbarUser
-
 
