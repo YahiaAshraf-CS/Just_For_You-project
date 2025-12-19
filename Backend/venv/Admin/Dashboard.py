@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify,Blueprint
 from models import Product, db
-app = Blueprint('Dashboard', _name_)
+app = Blueprint('Dashboard', __name__)
 @app.route("/api/products", methods=["GET"])
 def get_products():
     products = Product.query.all()
