@@ -48,7 +48,7 @@ function Wishlist() {
                 </h1>
 
                 {wishlistItems.length === 0 ? (
-                    <div className="text-center p-10 bg-white border rounded shadow-sm">
+                    <div className="text-center p-10 bg-pink-100 border rounded shadow-sm">
                         <p className="text-gray-400">your wishlist is empty</p>
                     </div>
                 ) : (
