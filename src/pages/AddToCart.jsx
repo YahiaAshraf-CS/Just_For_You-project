@@ -1,123 +1,79 @@
-import React, { useEffect, useState } from 'react';
-import NavbarUser from '../layout/NavbarUser';
-import { FaShoppingCart, FaTrash, FaPlus, FaMinus } from "react-icons/fa";
+import NavbarUser from "../layout/NavbarUser";
+import Footer from "../layout/Footer";
+import { useEffect } from "react";
+import { useState } from "react";
+import { FaShoppingCart, FaTrash } from "react-icons/fa";
 
-function AddToCart() {
-    const [cartItems, setCartItems] = useState([]);
+const AddToCart = () => {
+    const api = "http://127.0.0.1:5000/api/shop";
+    const [cartlist, setCartlist] = useState([]);
 
-    const api = "http://127.0.0.1:5000";
-    const user_id = 1; 
-
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    const user_id = currentUser.id;
     useEffect(() => {
-        view_cart();
+        get_cart();
     }, []);
-
-    const view_cart = async () => {
+    const get_cart = async () => {
         const response = await fetch(`${api}/cart/${user_id}`);
         const data = await response.json();
-        setCartItems(data);
-    };
-
-    const add_to_cart = async (product_id, quantity) => {
-        const response = await fetch(`${api}/cart`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-                user_id: user_id, 
-                product_id: product_id, 
-                quantity: quantity 
-            })
-        });
-
-        if (response.ok) {
-            view_cart();
-        } else {
-            const errorData = await response.json();
-            alert(errorData.message);
-        }
+        setCartlist(data);
     };
 
     const remove_from_cart = async (cart_id) => {
         const response = await fetch(`${api}/cart/${cart_id}`, {
-            method: 'DELETE'
+            method: "DELETE",
         });
-        
+
         if (response.ok) {
-            setCartItems(cartItems.filter(item => item.id !== cart_id));
+            get_cart();
         }
     };
 
-    const grandTotal = cartItems.reduce((sum, item) => sum + item.total, 0);
+    // حساب الإجمالي
+    const total = cartlist.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
     return (
         <>
             <NavbarUser />
             <div className="container mx-auto p-6 max-w-4xl min-h-screen">
-                <h1 className="text-4xl font-bold text-pink-600 flex items-center justify-center gap-3 mb-8">
-                    <FaShoppingCart /> your cart
+                <h1 className="text-3xl font-bold text-pink-600 flex justify-center gap-2 mb-8">
+                    <FaShoppingCart /> Your Cart
                 </h1>
 
-                {cartItems.length === 0 ? (
-                    <div className="text-center py-10 border rounded-lg bg-white shadow-sm">
-                        <p className="text-xl text-gray-500">your cart is empty</p>
+                {cartlist.length === 0 ? (
+                    <div className="text-center p-10 bg-white border rounded shadow-sm">
+                        <p className="text-gray-400">your cart is empty</p>
                     </div>
                 ) : (
-                    <div className="bg-white shadow-lg rounded-lg overflow-hidden">
-                        <table className="w-full">
-                            <thead className="bg-pink-100 text-pink-700">
-                                <tr>
-                                    <th className="p-4 text-left">product</th>
-                                    <th className="p-4 text-center">price</th>
-                                    <th className="p-4 text-center">qty</th>
-                                    <th className="p-4 text-center">total</th>
-                                    <th className="p-4 text-center">action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {cartItems.map((item) => (
-                                    <tr key={item.id} className="border-b hover:bg-gray-50 transition-colors">
-                                        <td className="p-4 font-semibold text-gray-700">{item.product_name}</td>
-                                        <td className="p-4 text-center text-gray-600">${item.price}</td>
-                                        <td className="p-4">
-                                            <div className="flex items-center justify-center gap-3">
-                                                <button 
-                                                    onClick={() => add_to_cart(item.product_id, -1)} 
-                                                    className="p-1 rounded bg-gray-200 hover:bg-pink-200"
-                                                >
-                                                    <FaMinus size={12} />
-                                                </button>
-                                                <span className="w-8 text-center font-bold">{item.quantity}</span>
-                                                <button 
-                                                    onClick={() => add_to_cart(item.product_id, 1)} 
-                                                    className="p-1 rounded bg-gray-200 hover:bg-pink-200"
-                                                >
-                                                    <FaPlus size={12} />
-                                                </button>
-                                            </div>
-                                        </td>
-                                        <td className="p-4 text-center font-bold text-pink-600">${item.total}</td>
-                                        <td className="p-4 text-center">
-                                            <button 
-                                                onClick={() => remove_from_cart(item.id)} 
-                                                className="text-red-400 hover:text-red-600"
-                                            >
-                                                <FaTrash size={18} />
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                        <div className="p-6 bg-gray-50 flex justify-end border-t">
-                            <h2 className="text-2xl font-bold text-gray-800">
-                                total: <span className="text-pink-600">${grandTotal}</span>
-                            </h2>
-                        </div>
+                    <div className="grid grid-cols-1 gap-4">
+                        {cartlist.map((item) => (
+                            <div key={item.id} className="bg-white p-4 shadow-md rounded-lg flex items-center justify-between border border-pink-100">
+                                <div className="flex items-center gap-4">
+                                    <img src={item.image} alt={item.name} className="w-16 h-16 object-cover rounded" />
+                                    <div>
+                                        {item.name ? <h3 className="font-bold text-gray-800 text-lg">{item.name}</h3> : <h3 className="font-bold text-gray-800 text-lg">no name</h3>}
+                                        <p className="text-gray-500 text-sm">{item.description}</p>
+                                        <p className="text-pink-600 font-bold">${item.price} SAR</p>
+
+                                        <p className="text-gray-500 text-sm">Quantity: {item.quantity}</p>
+                                    </div>
+                                </div>
+
+                                <div className="flex gap-2">
+                                    <button onClick={() => remove_from_cart(item.id)} className="p-2 text-gray-400 hover:text-red-500 transition-colors">
+                                        <FaTrash size={18} />
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 )}
+                <div className="flex justify-end mt-4">
+                    <p className="font-bold text-gray-800 text-lg">Total: ${total}</p>
+                </div>
             </div>
+            <Footer />
         </>
     );
-}
-
+};
 export default AddToCart;
